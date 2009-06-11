@@ -376,7 +376,7 @@ public class BigPlanet extends Activity {
 			selectNetworkMode();
 			break;
 		case 12:
-			// showSearch();
+			 showSearch();
 			break;
 		case 13:
 			showAbout();
@@ -525,9 +525,9 @@ public class BigPlanet extends Activity {
 
 	private void showSearch() {
 		onSearchRequested();
-		// Intent i = new Intent();
-		// i.setClass(this, FindPlace.class);
-		// startActivityForResult(i,0);
+		 Intent i = new Intent();
+		 i.setClass(this, FindPlace.class);
+		 startActivityForResult(i,0);
 	}
 
 	private void showAbout() {
