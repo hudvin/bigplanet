@@ -18,7 +18,7 @@ import com.nevilon.bigplanet.core.RawTile;
  */
 public class LocalStorageWrapper {
 
-	private static LocalStorage localStorage = LocalStorage.getInstance();
+	private static ILocalStorage localStorage = SQLLocalStorage.getInstance();
 
 	/**
 	 * Декодирует тайл

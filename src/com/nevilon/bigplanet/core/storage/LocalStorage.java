@@ -15,20 +15,22 @@ import com.nevilon.bigplanet.core.RawTile;
  * @author hudvin
  * 
  */
-public class LocalStorage {
+public class LocalStorage implements ILocalStorage {
 
 	private static final int BUFFER_SIZE = 4096;
 
-	private static LocalStorage localStorage;
+	private static ILocalStorage localStorage;
 	
 	private static String TILE_FILE_NAME = "tile";
 
+	private  ILocalStorage s;
+	
 	/**
 	 * Корневой каталог для файлового кеша
 	 */
 	private static final String root_dir_location = "/sdcard/bigplanet/";
 
-	public static LocalStorage getInstance() {
+	public static ILocalStorage getInstance() {
 		if (localStorage == null) {
 			localStorage = new LocalStorage();
 		}
@@ -39,12 +41,14 @@ public class LocalStorage {
 	 * Конструктор Инициализация файлового кеша(если необходимо)
 	 */
 	private LocalStorage() {
+		s = SQLLocalStorage.getInstance();
+		
 		//clear();
 		init();
 	}
 
-	/**
-	 * Очистка файлового кеша
+	/* (non-Javadoc)
+	 * @see com.nevilon.bigplanet.core.storage.ILocalStorage#clear()
 	 */
 	public void clear() {
 		deleteDir(new File(root_dir_location));
@@ -60,6 +64,9 @@ public class LocalStorage {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.nevilon.bigplanet.core.storage.ILocalStorage#isExists(com.nevilon.bigplanet.core.RawTile)
+	 */
 	public boolean isExists(RawTile tile) {
 		String path = buildPath(tile);
 		File tileFile = new File(path + TILE_FILE_NAME);
@@ -100,13 +107,8 @@ public class LocalStorage {
 		return path.toString();
 	}
 
-	/**
-	 * Сохраняет тайл в файловый кеш
-	 * 
-	 * @param tile
-	 *            параметры тайла
-	 * @param data
-	 *            параметры тайла
+	/* (non-Javadoc)
+	 * @see com.nevilon.bigplanet.core.storage.ILocalStorage#put(com.nevilon.bigplanet.core.RawTile, byte[])
 	 */
 	public void put(RawTile tile, byte[] data) {
 		String path = buildPath(tile);
@@ -122,15 +124,12 @@ public class LocalStorage {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		s.put(tile, data);
 
 	}
 
-	/**
-	 * Возвращает заданный тайл или null(если не найден)
-	 * 
-	 * @param tile
-	 *            параметры тайла
-	 * @return тайл
+	/* (non-Javadoc)
+	 * @see com.nevilon.bigplanet.core.storage.ILocalStorage#get(com.nevilon.bigplanet.core.RawTile)
 	 */
 	public BufferedInputStream get(RawTile tile) {
 		String path = buildPath(tile);
