@@ -524,7 +524,7 @@ public class BigPlanet extends Activity {
 	}
 
 	private void showSearch() {
-		onSearchRequested();
+		//onSearchRequested();
 		 Intent i = new Intent();
 		 i.setClass(this, FindPlace.class);
 		 startActivityForResult(i,0);
